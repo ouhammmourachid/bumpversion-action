@@ -5,6 +5,7 @@ bumpversion $1
 
 git config --global user.email "bumpversion@github-actions"
 git config --global user.name "BumpVersion Action"
+git config --global --add safe.directory /github/workspace
 
 new_version=$(git describe --tags --abbrev=0)
 echo $new_version
