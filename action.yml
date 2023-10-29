@@ -7,7 +7,7 @@ inputs:
     required: true
     default: 'patch'
 outputs:
-  new-version:
+  new_version:
     description: 'the new version after the bump version .'
 runs:
   using: 'docker'
