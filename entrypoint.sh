@@ -24,7 +24,7 @@ git add .
 new_version=$(bumpver show | awk '/Current Version:/{print $3}')
 
 git commit -m "Bump version $old_version to $new_version"
-git push origin HEAD:$GITHUB_REF
+git push git@github.com:$GITHUB_REPOSITORY.git HEAD:$GITHUB_REF
 
 
 echo $new_version
