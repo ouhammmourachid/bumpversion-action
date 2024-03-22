@@ -12,7 +12,7 @@ bumpver update --$1
 # set up ssh key for git
 
 mkdir -p ~/.ssh
-echo "$1" > ~/.ssh/id_rsa
+echo "$2" > ~/.ssh/id_rsa
 
 
 git config --global user.email "actions@github.com"
