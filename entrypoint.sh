@@ -17,6 +17,7 @@ echo "$1" > ~/.ssh/id_rsa
 
 git config --global user.email "actions@github.com"
 git config --global user.name "github-actions[bot]"
+git config --global --add safe.directory /github/workspace
 git add .
 
 
