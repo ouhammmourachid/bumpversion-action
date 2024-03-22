@@ -1,16 +1,26 @@
 # action.yml
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'bumpversion-action'
+description: 'bumpversion action for bumping the version of the project .'
 inputs:
   bump-type:
-    description: 'the type of bumpversion excution major.minor.patch '
+    description: 'the type of the bump version .'
     required: true
     default: 'patch'
+    options: ['major', 'minor', 'patch']
+  
+  ssh-private-key:
+    description: 'the ssh private key to use for the git push .'
+    required: true
+
 outputs:
   new_version:
     description: 'the new version after the bump version .'
+  old_version:
+    description: 'the old version before the bump version .'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.bump-type }}
+    - ${{ inputs.ssh-private-key }}
