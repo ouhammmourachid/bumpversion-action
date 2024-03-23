@@ -23,3 +23,8 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           branch: 'test'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: get the version output
+        run: |
+          echo "new_version: ${{ steps.bumpversion-action.outputs.new_version }}"
+          echo "old_version: ${{ steps.bumpversion-action.outputs.old_version }}"
+

@@ -32,8 +32,6 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -51,6 +49,7 @@ runs:
         echo "old_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         poetry run bumpver update --${{ inputs.bump-type }}
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
+        echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
       shell: bash
     - name: Set outputs
       uses: webfactory/ssh-agent@v0.9.0
@@ -66,9 +65,7 @@ runs:
       shell: bash
     - name: Push Changes via SSH
       run: |
-        echo git@github.com:$GITHUB_REPOSITORY.git ${{ inputs.branch }}
         git push git@github.com:$GITHUB_REPOSITORY.git ${{ inputs.branch }}
-        
       shell: bash
     - name: Create release
       env:
