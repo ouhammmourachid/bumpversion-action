@@ -11,7 +11,7 @@ RUN apk add --no-cache git bash curl jq
 RUN pip install --no-cache-dir -U pip
 
 
-RUN pip install --no-cache-dir bumpver openssh-client
+RUN pip install --no-cache-dir bumpver poetry
 
 COPY entrypoint.sh /entrypoint.sh
 

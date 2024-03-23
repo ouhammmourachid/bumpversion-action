@@ -3,7 +3,7 @@
 echo "start bumpver exec"
 
 
-old_version=$(bumpver show | awk '/Current Version:/{print $3}')
+old_version=$(poetry version -s)
 
 echo "old_version=$old_version" >> $GITHUB_OUTPUT
 
@@ -21,7 +21,7 @@ git config --global --add safe.directory /github/workspace
 git add .
 
 
-new_version=$(bumpver show | awk '/Current Version:/{print $3}')
+new_version=$(poetry version -s)
 
 git commit -m "Bump version $old_version to $new_version"
 git push git@github.com:$GITHUB_REPOSITORY.git HEAD:$GITHUB_REF

@@ -1,5 +1,8 @@
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - test
+      
 
 jobs:
   test-bumpversion-action:
