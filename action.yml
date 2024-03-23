@@ -1,5 +1,5 @@
 # action.yml
-name: 'bumpversion-action'
+name: 'Github Action for Bumpversion'
 description: 'bumpversion action for bumping the version of the project .'
 author: 'rachid ouhammou'
 inputs:
@@ -25,11 +25,12 @@ inputs:
     secret: true
 
 outputs:
-  new_version:
+  new-version:
     description: 'the new version after the bump version .'
-  old_version:
+    value: ${{ steps.bump.outputs.new_version }}
+  old-version:
     description: 'the old version before the bump version .'
-
+    value: ${{ steps.bump.outputs.old_version }}
 runs:
   using: 'composite'
   steps:
@@ -46,6 +47,7 @@ runs:
       shell: bash
 
     - name: Bump version
+      id: bump
       run: |
         echo "old_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "old_version=$(poetry version -s)" >> $GITHUB_ENV
