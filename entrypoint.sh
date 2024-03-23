@@ -29,4 +29,3 @@ git push git@github.com:$GITHUB_REPOSITORY.git HEAD:$GITHUB_REF
 echo git@github.com:$GITHUB_REPOSITORY.git HEAD:$GITHUB_REF
 
 echo "new_version=$new_version" >> $GITHUB_OUTPUT
-
