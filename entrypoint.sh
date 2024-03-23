@@ -26,7 +26,7 @@ new_version=$(poetry version -s)
 git commit -m "Bump version $old_version to $new_version"
 git push git@github.com:$GITHUB_REPOSITORY.git HEAD:$GITHUB_REF
 
+echo git@github.com:$GITHUB_REPOSITORY.git HEAD:$GITHUB_REF
 
-echo $new_version
 echo "new_version=$new_version" >> $GITHUB_OUTPUT
 

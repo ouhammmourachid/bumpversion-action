@@ -23,5 +23,4 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.bump-type }}
-    # - ${{ inputs.ssh-private-key }}
-    - "hello world"
+    - ${{ inputs.ssh-private-key }}
