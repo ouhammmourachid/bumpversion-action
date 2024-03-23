@@ -2,6 +2,7 @@
 
 echo "start bumpver exec"
 
+echo $2
 
 old_version=$(bumpver show | awk '/Current Version:/{print $3}')
 
