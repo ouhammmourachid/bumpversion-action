@@ -1,6 +1,7 @@
 # action.yml
 name: 'bumpversion-action'
 description: 'bumpversion action for bumping the version of the project .'
+author: 'rachid ouhammou'
 inputs:
   bump-type:
     description: 'the type of the bump version .'
@@ -78,4 +79,6 @@ runs:
             --title="${GITHUB_REPOSITORY#*/} v${tag#v}" \
             --generate-notes
       shell: bash
-
+branding:
+  icon: 'chevrons-up'
+  color: 'blue'
