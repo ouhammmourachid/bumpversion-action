@@ -67,6 +67,7 @@ runs:
     - name: Push Changes via SSH
       run: |
         git push git@github.com:$GITHUB_REPOSITORY ${{ inputs.branch }}
+        echo git@github.com:$GITHUB_REPOSITORY ${{ inputs.branch }}
       shell: bash
     - name: Create release
       env:
