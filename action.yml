@@ -11,6 +11,7 @@ inputs:
   ssh-private-key:
     description: 'the ssh private key to use for the git push .'
     required: true
+    secret: true
   
   branch:
     description: 'the branch to push the changes to .'
@@ -20,7 +21,7 @@ inputs:
   github-token:
     description: 'the github'
     required: true
-    default: ${{ secrets.GITHUB_TOKEN }}
+    secret: true
 
 outputs:
   new_version:

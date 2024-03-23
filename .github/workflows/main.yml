@@ -21,3 +21,5 @@ jobs:
         with:
           bump-type: 'patch'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          branch: 'main'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
