@@ -58,7 +58,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: bumpversion
-        uses: ouhammmourachid@bumpversion-action@v1
+        uses: ouhammmourachid/bumpversion-action@v1
         with:
           bump-type: 'patch'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
