@@ -53,7 +53,7 @@ runs:
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
       shell: bash
     - name: Set outputs
-      uses: webfactory/ssh-agent@v0.5.4
+      uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ inputs.ssh-private-key }}
   
@@ -66,8 +66,9 @@ runs:
       shell: bash
     - name: Push Changes via SSH
       run: |
-        git push git@github.com:$GITHUB_REPOSITORY ${{ inputs.branch }}
         echo git@github.com:$GITHUB_REPOSITORY ${{ inputs.branch }}
+        git push git@github.com:$GITHUB_REPOSITORY ${{ inputs.branch }}
+        
       shell: bash
     - name: Create release
       env:
