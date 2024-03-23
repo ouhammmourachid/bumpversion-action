@@ -62,7 +62,7 @@ runs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "actions@github.com"
         git add *
-        git commit -m "#bump version from ${{ env.old_version }} --> ${{ env.new_version }}"
+        git commit -m "#bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
       shell: bash
     - name: Push Changes via SSH
       run: |
@@ -75,7 +75,7 @@ runs:
       run: |
         gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
-            --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+            --title="${GITHUB_REPOSITORY#*/} v${tag}" \
             --generate-notes
       shell: bash
 
