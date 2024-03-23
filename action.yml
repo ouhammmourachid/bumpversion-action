@@ -75,7 +75,7 @@ runs:
       run: |
         gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
-            --title="${GITHUB_REPOSITORY#*/} v${tag}" \
+            --title="${GITHUB_REPOSITORY#*/} v${tag#v}" \
             --generate-notes
       shell: bash
 
