@@ -1,9 +1,7 @@
 name: Bumpversion Action
 
 on:
-  push:
-    branches:
-      - test
+  workflow_dispatch:
 
 permissions:
   contents: write
