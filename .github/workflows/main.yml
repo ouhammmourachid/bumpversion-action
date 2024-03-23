@@ -23,6 +23,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: get the version output
         run: |
-          echo "new_version: ${{ steps.bumpversion-action.outputs.new_version }}"
-          echo "old_version: ${{ steps.bumpversion-action.outputs.old_version }}"
+          echo "new_version: ${{ steps.bumpversion-action.outputs.new-version }}"
+          echo "old_version: ${{ steps.bumpversion-action.outputs.old-version }}"
 
