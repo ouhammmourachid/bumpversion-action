@@ -64,7 +64,7 @@ runs:
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "actions@github.com"
-        git add *
+        git add .
         git commit -m "#bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
       shell: bash
     - name: Push Changes via SSH
