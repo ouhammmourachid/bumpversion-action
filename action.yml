@@ -34,8 +34,9 @@ outputs:
 runs:
   using: 'composite'
   steps:
+
     - name: Set up Python 3.8
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
@@ -44,6 +45,17 @@ runs:
         python -m pip install --upgrade pip
         pip install poetry
         pip install bumpver
+      shell: bash
+
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        tag: "v${{env.new_version}}"
+      run: |
+        gh release create "$tag" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="${GITHUB_REPOSITORY#*/} v${tag#v}" \
+            --generate-notes
       shell: bash
 
     - name: Bump version
@@ -55,6 +67,7 @@ runs:
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
       shell: bash
+
     - name: Set outputs
       uses: webfactory/ssh-agent@v0.9.0
       with:
@@ -67,19 +80,10 @@ runs:
         git add .
         git commit -m "#bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
       shell: bash
+      
     - name: Push Changes via SSH
       run: |
         git push git@github.com:$GITHUB_REPOSITORY.git ${{ inputs.branch }}
-      shell: bash
-    - name: Create release
-      env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
-        tag: "v${{env.new_version}}"
-      run: |
-        gh release create "$tag" \
-            --repo="$GITHUB_REPOSITORY" \
-            --title="${GITHUB_REPOSITORY#*/} v${tag#v}" \
-            --generate-notes
       shell: bash
 branding:
   icon: 'chevrons-up'
