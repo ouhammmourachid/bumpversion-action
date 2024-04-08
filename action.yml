@@ -56,16 +56,6 @@ runs:
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
       shell: bash
-    - name: Create release
-      env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
-        tag: "v${{env.old_version}}"
-      run: |
-        gh release create "$tag" \
-            --repo="$GITHUB_REPOSITORY" \
-            --title="${GITHUB_REPOSITORY#*/} v${tag#v}" \
-            --generate-notes
-      shell: bash
     
     - name: Set outputs
       uses: webfactory/ssh-agent@v0.9.0
@@ -84,6 +74,18 @@ runs:
       run: |
         git push git@github.com:$GITHUB_REPOSITORY.git ${{ inputs.branch }}
       shell: bash
+    
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        tag: "v${{env.old_version}}"
+      run: |
+        gh release create "$tag" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="${GITHUB_REPOSITORY#*/} v${tag#v}" \
+            --generate-notes
+      shell: bash
+    
 branding:
   icon: 'chevrons-up'
   color: 'blue'
