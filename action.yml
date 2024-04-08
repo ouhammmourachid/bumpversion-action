@@ -78,7 +78,7 @@ runs:
     - name: Create release
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
-        tag: "v${{env.old_version}}"
+        tag: "v${{env.new_version}}"
       run: |
         gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
