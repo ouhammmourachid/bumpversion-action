@@ -119,7 +119,7 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         tag: "v${{env.new_version}}"
         title: ${{ inputs.release-title }}
-      if : ${{ inputs.generate-notes }}
+      if : ${{ inputs.generate-notes=='true' }}
       run: |
         gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
@@ -132,7 +132,7 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         tag: "v${{env.new_version}}"
         title: ${{ inputs.release-title }}
-      if : ${{ !inputs.generate-notes }}
+      if : ${{ inputs.generate-notes=='false' }}
       run: |
         gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
