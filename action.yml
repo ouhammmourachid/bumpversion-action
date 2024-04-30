@@ -68,7 +68,7 @@ runs:
       shell: bash
     - name: Setup poetry
       run: |
-        if [$poetry_exist == "false"]; then
+        if ["$poetry_exist" == "false"]; then
           poetry init --no-interaction
           cat bumpver.toml >> pyproject.toml
         fi
@@ -87,7 +87,7 @@ runs:
         poetry run bumpver update --${{ inputs.bump-type }}
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
-        if [$poetry_exist == "false"]; then
+        if ["$poetry_exist" == "false"]; then
           rm -f pyproject.toml
           rm -f poetry.lock
         fi
