@@ -21,6 +21,7 @@ jobs:
           bump-type: 'patch'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          generate-notes: false
       - name: get the version output
         run: |
           echo "new_version: ${{ steps.bumpversion-action.outputs.new-version }}"

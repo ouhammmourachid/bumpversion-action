@@ -25,8 +25,12 @@ inputs:
     secret: true
   release-title:
     description: 'the title of the release .'
-    required: true
-    default: 'Release'
+    required: false
+    default: ''
+  generate-notes:
+    description: 'generate notes for the release .'
+    required: false
+    default: true
 
 outputs:
   new-version:
@@ -84,11 +88,18 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         tag: "v${{env.new_version}}"
         title: ${{ inputs.release-title }}
+      if : ${{ inputs.generate-notes }}
       run: |
         gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="${title} v${tag#v}" \
             --generate-notes
+      shell: bash
+      if : !${{ inputs.generate-notes }}
+      run: |
+        gh release create "$tag" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="${title} v${tag#v}"
       shell: bash
     
 branding:
