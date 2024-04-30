@@ -67,11 +67,10 @@ runs:
         pip install bumpver
       shell: bash
     - name: Setup poetry
+      if : ${{ env.poetry_exist == 'false' }}
       run: |
-        if ["$poetry_exist" == "false"]; then
-          poetry init --no-interaction
-          cat bumpver.toml >> pyproject.toml
-        fi
+        poetry init --no-interaction
+        cat bumpver.toml >> pyproject.toml
       shell: bash
     - name: debug
       run: |
