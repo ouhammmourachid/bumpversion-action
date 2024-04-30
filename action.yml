@@ -95,7 +95,7 @@ runs:
             --title="${title} v${tag#v}" \
             --generate-notes
       shell: bash
-      if : !${{ inputs.generate-notes }}
+      if : ${{ !inputs.generate-notes }}
       run: |
         gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
