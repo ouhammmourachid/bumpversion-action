@@ -1,0 +1,8 @@
+[bumpver]
+current_version = "0.1.19"
+version_pattern = "MAJOR.MINOR.PATCH"
+
+[bumpver.file_patterns]
+"pyproject.toml" = [
+    'version = "{version}"$',
+]
