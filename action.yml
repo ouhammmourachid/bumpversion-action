@@ -23,6 +23,10 @@ inputs:
     description: 'the github'
     required: true
     secret: true
+  release-title:
+    description: 'the title of the release .'
+    required: false
+    default: 'Release'
 
 outputs:
   new-version:
@@ -67,7 +71,7 @@ runs:
         git config --global user.name "GitHub Actions [Bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add .
-        git commit -m "#bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
+        git commit -m "Bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
       shell: bash
       
     - name: Push Changes via SSH
@@ -79,10 +83,11 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         tag: "v${{env.new_version}}"
+        title: ${{ inputs.release-title }}
       run: |
         gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
-            --title="${GITHUB_REPOSITORY#*/} v${tag#v}" \
+            --title="${title} v${tag#v}" \
             --generate-notes
       shell: bash
     
