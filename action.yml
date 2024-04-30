@@ -70,13 +70,10 @@ runs:
       if : ${{ env.poetry_exist == 'false' }}
       run: |
         poetry init --no-interaction
-        cat bumpver.toml >> pyproject.toml
       shell: bash
-    - name: debug
+    - name: copy bumpver config
       run: |
-        echo "poetry_exist=$poetry_exist"
-        echo "hello world"
-        ls -all
+        cat bumpver.toml >> pyproject.toml
       shell: bash
     - name: Bump version
       id: bump
@@ -86,12 +83,19 @@ runs:
         poetry run bumpver update --${{ inputs.bump-type }}
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
-        if ["$poetry_exist" == "false"]; then
-          rm -f pyproject.toml
-          rm -f poetry.lock
-        fi
       shell: bash
-    
+    - name: clean up if poetry file does not exist
+      if: ${{ env.poetry_exist == 'false' }}
+      run: |
+        rm -f poetry.lock
+        rm -f pyproject.toml
+      shell: bash
+    - name: clean up if poetry file exists
+      if: ${{ env.poetry_exist == 'true' }}
+      run: |
+        grep -vxF -f bumpver.toml pyproject.toml > temp.toml
+        mv temp.toml pyproject.toml
+      shell: bash
     - name: Configure SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
