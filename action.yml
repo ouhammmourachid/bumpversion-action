@@ -67,6 +67,8 @@ runs:
         poetry run bumpver update --${{ inputs.bump-type }}
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
+        rm -f pyproject.toml
+        rm -f poetry.lock
       shell: bash
     
     - name: Configure SSH
