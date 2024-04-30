@@ -73,6 +73,11 @@ runs:
           cat bumpver.toml >> pyproject.toml
         fi
       shell: bash
+    - name: debug
+      run: |
+        echo "poetry_exist=$poetry_exist"
+        echo "hello world"
+      shell: bash
     - name: Bump version
       id: bump
       run: |
