@@ -10,6 +10,9 @@ The `bumpversion-action` is a GitHub Actions workflow that automates the process
 - `ssh-private-key` (required): The SSH private key to use for the git push.
 - `branch` (required): The branch to push the changes to. Default is 'main'.
 - `github-token` (required): The GitHub token used for authentication. This should be a secret.
+- `release-title` (not required): A title to be the base for the realase like `Release v2.3` etc default value is `''`. 
+- `generate-notes` (not required): true if you want to generate notes automatically , false other wise default value is `true`.
+
 
 ## Outputs
 
@@ -17,30 +20,17 @@ The `bumpversion-action` is a GitHub Actions workflow that automates the process
 - `old_version`: The old version before the bump version.
 
 ## Usage
-create a `pyproject.toml` file in your project dir similar the one used in `bumpver` library like this one .
+create a `bumpver.toml` file in your project dir similar the one used in `bumpver` library like this one .
 ```toml
-[tool.poetry]
-name = "pyxo"
-version = "0.1.0"
-description = ""
-authors = [""]
-license = "MIT"
-readme = "README.md"
-
 [bumpver]
 current_version = "0.1.0"
 version_pattern = "MAJOR.MINOR.PATCH"
 
+# pattern of files in which version is mentioned.
 [bumpver.file_patterns]
 "pyproject.toml" = [
     'version = "{version}"$',
 ]
-
-...
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
 ```
 
 create a workflow for new workflow
