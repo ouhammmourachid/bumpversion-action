@@ -47,6 +47,18 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
+    
+    - name: check if poetry file exists
+    # Check if the pyproject.toml file exists and set  bool value to true if it does to use it in the next step
+      run: |
+        if [ -f pyproject.toml ]; then
+          echo "poetry file exists"
+          echo "poetry_exist=true" >> $GITHUB_ENV
+        else
+          echo "poetry file does not exist"
+          echo "poetry_exist=false" >> $GITHUB_ENV
+        fi
+      shell: bash
 
     - name: Upgrade pip & Install Poetry.
       run: |
@@ -56,8 +68,10 @@ runs:
       shell: bash
     - name: Setup poetry
       run: |
-        poetry init --no-interaction
-        cat bumpver.toml >> pyproject.toml
+        if [$poetry_exist == "false"]; then
+          poetry init --no-interaction
+          cat bumpver.toml >> pyproject.toml
+        fi
       shell: bash
     - name: Bump version
       id: bump
@@ -67,8 +81,10 @@ runs:
         poetry run bumpver update --${{ inputs.bump-type }}
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
-        rm -f pyproject.toml
-        rm -f poetry.lock
+        if [$poetry_exist == "false"]; then
+          rm -f pyproject.toml
+          rm -f poetry.lock
+        fi
       shell: bash
     
     - name: Configure SSH
