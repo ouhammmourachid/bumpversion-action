@@ -1,8 +1,11 @@
-# action.yml
+# descripption of the action
 name: 'Github Action for Bumpversion'
 description: 'bumpversion action for bumping the version of the project .'
 author: 'rachid ouhammou'
+
+# inputs of the action
 inputs:
+
   bump-type:
     description: 'the type of the bump version .'
     required: true
@@ -23,15 +26,18 @@ inputs:
     description: 'the github'
     required: true
     secret: true
+  
   release-title:
     description: 'the title of the release .'
     required: false
     default: ''
+  
   generate-notes:
     description: 'generate notes for the release .'
     required: false
     default: true
 
+# outputs of the action
 outputs:
   new-version:
     description: 'the new version after the bump version .'
@@ -39,6 +45,9 @@ outputs:
   old-version:
     description: 'the old version before the bump version .'
     value: ${{ steps.bump.outputs.old_version }}
+
+
+# runs of the action
 runs:
   using: 'composite'
   steps:
@@ -71,10 +80,6 @@ runs:
       run: |
         poetry init --no-interaction
       shell: bash
-    - name: copy bumpver config
-      run: |
-        cat bumpver.toml >> pyproject.toml
-      shell: bash
     - name: Bump version
       id: bump
       run: |
@@ -89,12 +94,6 @@ runs:
       run: |
         rm -f poetry.lock
         rm -f pyproject.toml
-      shell: bash
-    - name: clean up if poetry file exists
-      if: ${{ env.poetry_exist == 'true' }}
-      run: |
-        grep -vxF -f bumpver.toml pyproject.toml > temp.toml
-        mv temp.toml pyproject.toml
       shell: bash
     - name: Configure SSH
       uses: webfactory/ssh-agent@v0.9.0
