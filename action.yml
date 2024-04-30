@@ -83,7 +83,7 @@ runs:
         git push git@github.com:$GITHUB_REPOSITORY.git ${{ inputs.branch }}
       shell: bash
     
-    - name: Create release
+    - name: Create release with generated notes
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         tag: "v${{env.new_version}}"
@@ -95,6 +95,12 @@ runs:
             --title="${title} v${tag#v}" \
             --generate-notes
       shell: bash
+    
+    - name: Create release without generated notes
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        tag: "v${{env.new_version}}"
+        title: ${{ inputs.release-title }}
       if : ${{ !inputs.generate-notes }}
       run: |
         gh release create "$tag" \
