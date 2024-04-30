@@ -25,7 +25,7 @@ inputs:
     secret: true
   release-title:
     description: 'the title of the release .'
-    required: false
+    required: true
     default: 'Release'
 
 outputs:
