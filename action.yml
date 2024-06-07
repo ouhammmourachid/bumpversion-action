@@ -23,9 +23,10 @@ inputs:
     default: 'main'
   
   github-token:
-    description: 'the github'
-    required: true
+    description: 'the github token to use for the git push .'
+    required: false
     secret: true
+    default: ${{ github.token }}
   
   release-title:
     description: 'the title of the release .'
