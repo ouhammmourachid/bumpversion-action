@@ -6,6 +6,3 @@ version_pattern = "MAJOR.MINOR.PATCH"
 "pyproject.toml" = [
     'version = "{version}"$',
 ]
-"__init__.py" = [
-    "^__version__ = '{version}'$",
-]
