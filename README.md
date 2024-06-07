@@ -9,7 +9,7 @@ The `bumpversion-action` is a GitHub Actions workflow that automates the process
 - `bump-type` (required): The type of the bump version. Valid options are 'major', 'minor', or 'patch'.
 - `ssh-private-key` (required): The SSH private key to use for the git push.
 - `branch` (required): The branch to push the changes to. Default is 'main'.
-- `github-token` (required): The GitHub token used for authentication. This should be a secret.
+- `github-token` (required): The GitHub token used for authentication. This should be a secret. Default is `GITHUB_TOKEN`.
 - `release-title` (not required): A title to be the base for the realase like `Release v2.3` etc default value is `''`. 
 - `generate-notes` (not required): true if you want to generate notes automatically , false other wise default value is `true`.
 
@@ -20,7 +20,8 @@ The `bumpversion-action` is a GitHub Actions workflow that automates the process
 - `old_version`: The old version before the bump version.
 
 ## Usage
-create a `bumpver.toml` file in your project dir similar the one used in `bumpver` library like this one .
+create a `bumpver.toml` or `.bumpver.toml` file in your project dir similar the one used in `bumpver` library like this one .
+
 ```toml
 [bumpver]
 current_version = "0.1.0"
@@ -52,5 +53,4 @@ jobs:
         with:
           bump-type: 'patch'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
