@@ -86,7 +86,7 @@ runs:
       run: |
         echo "old_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "old_version=$(poetry version -s)" >> $GITHUB_ENV
-        poetry run bumpver update --${{ inputs.bump-type }}
+        poetry run bumpver update -n --${{ inputs.bump-type }}
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
       shell: bash
