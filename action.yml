@@ -96,24 +96,12 @@ runs:
         rm -f poetry.lock
         rm -f pyproject.toml
       shell: bash
-    - name: Configure SSH
-      uses: webfactory/ssh-agent@v0.9.0
+    - name: Commit and push changes
+      uses: actions-js/push@master
       with:
-        ssh-private-key: ${{ inputs.ssh-private-key }}
-  
-    - name: Commit Files
-      run: |
-        git config --global user.name "GitHub Actions [Bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add .
-        git commit -m "Bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
-      shell: bash
-      
-    - name: Push Changes via SSH
-      run: |
-        git push git@github.com:$GITHUB_REPOSITORY.git ${{ inputs.branch }}
-      shell: bash
-    
+        branch: ${{ inputs.branch }}
+        github_token: ${{ inputs.github-token }}
+        message: "Bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
     - name: Create release with generated notes
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
