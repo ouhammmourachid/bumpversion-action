@@ -70,14 +70,14 @@ runs:
         python -m pip install --upgrade pip
         pip install poetry
         pip install bumpver
-        poetry version
-        cat *.toml
-        poetry version -s
       shell: bash
     - name: Setup poetry
       if : ${{ env.poetry_exist == 'false' }}
       run: |
         poetry init --no-interaction
+        poetry version
+        cat *.toml
+        poetry version -s
       shell: bash
     - name: Bump version
       id: bump
