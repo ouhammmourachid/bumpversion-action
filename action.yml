@@ -79,11 +79,11 @@ runs:
     - name: Bump version
       id: bump
       run: |
-        echo "old_version=$(poetry version -s -n)" >> $GITHUB_OUTPUT
-        echo "old_version=$(poetry version -s)" >> $GITHUB_ENV
+        echo "old_version=$(poetry version -sn)" >> $GITHUB_OUTPUT
+        echo "old_version=$(poetry version -sn)" >> $GITHUB_ENV
         poetry run bumpver update -n --${{ inputs.bump-type }}
-        echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
-        echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
+        echo "new_version=$(poetry version -sn)" >> $GITHUB_OUTPUT
+        echo "new_version=$(poetry version -sn)" >> $GITHUB_ENV
       shell: bash
     - name: clean up if poetry file does not exist
       if: ${{ env.poetry_exist == 'false' }}
