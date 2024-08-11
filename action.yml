@@ -12,11 +12,6 @@ inputs:
     default: 'patch'
     options: ['major', 'minor', 'patch']
   
-  ssh-private-key:
-    description: 'the ssh private key to use for the git push .'
-    required: true
-    secret: true
-  
   branch:
     description: 'the branch to push the changes to .'
     required: true
