@@ -75,7 +75,7 @@ runs:
       if : ${{ env.poetry_exist == 'false' }}
       run: |
         poetry init --no-interaction
-        poetry run bumpver update --set-version $(grep 'current_version' bumpver.toml | cut -d '"' -f 2)
+        poetry run bumpver update -n --set-version $(grep 'current_version' bumpver.toml | cut -d '"' -f 2)
       shell: bash
     - name: Bump version
       id: bump
