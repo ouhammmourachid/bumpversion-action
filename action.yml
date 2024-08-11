@@ -75,16 +75,17 @@ runs:
       if : ${{ env.poetry_exist == 'false' }}
       run: |
         poetry init --no-interaction
-        # poetry run bumpver update -n --set-version $(grep 'current_version' bumpver.toml | cut -d '"' -f 2) --ignore-vcs-tag
+        $current_version = $(grep 'current_version' bumpver.toml | cut -d '"' -f 2)
+        sed -i 's/version = "0.1.0"/version = "$(current_version)"/' pyproject.toml
       shell: bash
     - name: Bump version
       id: bump
       run: |
-        echo "old_version=$(poetry version -sn)" >> $GITHUB_OUTPUT
-        echo "old_version=$(poetry version -sn)" >> $GITHUB_ENV
+        echo "old_version=$(poetry version -s)" >> $GITHUB_OUTPUT
+        echo "old_version=$(poetry version -s)" >> $GITHUB_ENV
         poetry run bumpver update -n --${{ inputs.bump-type }}
-        echo "new_version=$(poetry version -sn)" >> $GITHUB_OUTPUT
-        echo "new_version=$(poetry version -sn)" >> $GITHUB_ENV
+        echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
+        echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
       shell: bash
     - name: clean up if poetry file does not exist
       if: ${{ env.poetry_exist == 'false' }}
