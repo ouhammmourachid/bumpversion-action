@@ -79,6 +79,10 @@ runs:
         sed -i 's/version = "0.1.0"/version = "$current_version"/' pyproject.toml
         cat pyproject.toml
       shell: bash
+    - name: cat pyproject.toml
+      run: |
+        cat pyproject.toml
+      shell: bash
     - name: Bump version
       id: bump
       run: |
