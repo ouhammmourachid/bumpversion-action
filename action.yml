@@ -75,9 +75,7 @@ runs:
       if : ${{ env.poetry_exist == 'false' }}
       run: |
         poetry init --no-interaction
-        poetry version
-        cat *.toml
-        poetry version -s
+        poetry run bumpver update --from-file bumpver.toml --to-file pyproject.toml
       shell: bash
     - name: Bump version
       id: bump
