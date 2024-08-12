@@ -7,7 +7,6 @@ The `bumpversion-action` is a GitHub Actions workflow that automates the process
 ## Inputs
 
 - `bump-type` (required): The type of the bump version. Valid options are 'major', 'minor', or 'patch'.
-- `ssh-private-key` (required): The SSH private key to use for the git push.
 - `branch` (required): The branch to push the changes to. Default is 'main'.
 - `github-token` (required): The GitHub token used for authentication. This should be a secret. Default is `GITHUB_TOKEN`.
 - `release-title` (not required): A title to be the base for the realase like `Release v2.3` etc default value is `''`. 
@@ -37,20 +36,33 @@ version_pattern = "MAJOR.MINOR.PATCH"
 create a workflow for new workflow
 
 ```yml
+name: test bumpversion-action
+
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      bump-type:
+        description: 'Bump type'
+        required: true
+        options:
+          - major
+          - minor
+          - patch
+        default: 'patch'
 
 jobs:
-  bumpversion:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: bumpversion
-        uses: ouhammmourachid/bumpversion-action@v1
-        with:
-          bump-type: 'patch'
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+        fetch-depth: 0             # otherwise, you will fail to push refs to dest repo
+    
+    - name: bumpversion
+      uses: ouhammmourachid/bumpversion-action@v1
+      with:
+        github-token: ${{ secrets.TOKEN_PAT }}
+        bump-type: ${{ github.event.inputs.bump-type }}
 ```

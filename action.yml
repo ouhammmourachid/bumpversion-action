@@ -2,6 +2,9 @@
 name: 'Github Action for Bumpversion'
 description: 'bumpversion action for bumping the version of the project .'
 author: 'rachid ouhammou'
+branding:
+  icon: 'chevrons-up'
+  color: 'blue'
 
 # inputs of the action
 inputs:
@@ -48,7 +51,7 @@ runs:
   using: 'composite'
   steps:
 
-    - name: Set up Python 3.8
+    - name: Set up Python environment
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
@@ -78,11 +81,6 @@ runs:
         current_version=$(grep 'current_version' bumpver.toml | cut -d '"' -f 2)
         echo "Current version: $current_version"
         sed -i "s/version = \"0.1.0\"/version = \"$current_version\"/" pyproject.toml
-        cat pyproject.toml
-      shell: bash
-    - name: cat pyproject.toml
-      run: |
-        cat pyproject.toml
       shell: bash
     - name: Bump version
       id: bump
@@ -129,7 +127,3 @@ runs:
             --repo="$GITHUB_REPOSITORY" \
             --title="${title} v${tag#v}"
       shell: bash
-    
-branding:
-  icon: 'chevrons-up'
-  color: 'blue'
