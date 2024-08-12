@@ -25,5 +25,5 @@ jobs:
     - name: bumpversion
       uses: ./
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.TOKEN_PAT }}
         bump-type: ${{ github.event.inputs.bump-type }}
