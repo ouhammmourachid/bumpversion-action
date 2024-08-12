@@ -2,6 +2,9 @@
 name: 'Github Action for Bumpversion'
 description: 'bumpversion action for bumping the version of the project .'
 author: 'rachid ouhammou'
+branding:
+  icon: 'chevrons-up'
+  color: 'blue'
 
 # inputs of the action
 inputs:
@@ -11,11 +14,6 @@ inputs:
     required: true
     default: 'patch'
     options: ['major', 'minor', 'patch']
-  
-  ssh-private-key:
-    description: 'the ssh private key to use for the git push .'
-    required: true
-    secret: true
   
   branch:
     description: 'the branch to push the changes to .'
@@ -53,7 +51,7 @@ runs:
   using: 'composite'
   steps:
 
-    - name: Set up Python 3.8
+    - name: Set up Python environment
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
@@ -80,13 +78,16 @@ runs:
       if : ${{ env.poetry_exist == 'false' }}
       run: |
         poetry init --no-interaction
+        current_version=$(grep 'current_version' bumpver.toml | cut -d '"' -f 2)
+        echo "Current version: $current_version"
+        sed -i "s/version = \"0.1.0\"/version = \"$current_version\"/" pyproject.toml
       shell: bash
     - name: Bump version
       id: bump
       run: |
         echo "old_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "old_version=$(poetry version -s)" >> $GITHUB_ENV
-        poetry run bumpver update --${{ inputs.bump-type }}
+        poetry run bumpver update -n --${{ inputs.bump-type }}
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
       shell: bash
@@ -96,24 +97,12 @@ runs:
         rm -f poetry.lock
         rm -f pyproject.toml
       shell: bash
-    - name: Configure SSH
-      uses: webfactory/ssh-agent@v0.9.0
+    - name: Commit and push changes
+      uses: actions-js/push@master
       with:
-        ssh-private-key: ${{ inputs.ssh-private-key }}
-  
-    - name: Commit Files
-      run: |
-        git config --global user.name "GitHub Actions [Bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add .
-        git commit -m "Bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
-      shell: bash
-      
-    - name: Push Changes via SSH
-      run: |
-        git push git@github.com:$GITHUB_REPOSITORY.git ${{ inputs.branch }}
-      shell: bash
-    
+        branch: ${{ inputs.branch }}
+        github_token: ${{ inputs.github-token }}
+        message: "Bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
     - name: Create release with generated notes
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
@@ -138,7 +127,3 @@ runs:
             --repo="$GITHUB_REPOSITORY" \
             --title="${title} v${tag#v}"
       shell: bash
-    
-branding:
-  icon: 'chevrons-up'
-  color: 'blue'

@@ -1,0 +1,29 @@
+name: release bumpversion action
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump-type:
+        description: 'Bump type'
+        required: true
+        options:
+          - major
+          - minor
+          - patch
+        default: 'patch'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+    
+    - name: bumpversion
+      uses: ouhammmourachid/bumpversion-action@dev
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        bump-type: ${{ github.event.inputs.bump-type }}
