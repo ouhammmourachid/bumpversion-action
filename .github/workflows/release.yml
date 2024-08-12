@@ -23,7 +23,7 @@ jobs:
         fetch-depth: 0
     
     - name: bumpversion
-      uses: ouhammmourachid/bumpversion-action@dev
+      uses: ./
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         bump-type: ${{ github.event.inputs.bump-type }}
