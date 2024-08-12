@@ -33,7 +33,7 @@ version_pattern = "MAJOR.MINOR.PATCH"
 ]
 ```
 
-create a workflow for new workflow
+then create a workflow file in `.github/workflows` dir like this one
 
 ```yml
 name: test bumpversion-action
