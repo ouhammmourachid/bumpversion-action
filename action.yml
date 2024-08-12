@@ -75,9 +75,9 @@ runs:
       if : ${{ env.poetry_exist == 'false' }}
       run: |
         poetry init --no-interaction
-        current_version = $(grep 'current_version' bumpver.toml | cut -d '"' -f 2)
-        echo $current_version
-        sed -i 's/version = "0.1.0"/version = "$current_version"/' pyproject.toml
+        current_version=$(grep 'current_version' bumpver.toml | cut -d '"' -f 2)
+        echo "Current version: $current_version"
+        sed -i "s/version = \"0.1.0\"/version = \"$current_version\"/" pyproject.toml
         cat pyproject.toml
       shell: bash
     - name: cat pyproject.toml
