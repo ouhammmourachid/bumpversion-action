@@ -14,23 +14,23 @@ inputs:
     required: true
     default: 'patch'
     options: ['major', 'minor', 'patch']
-  
+
   branch:
     description: 'the branch to push the changes to .'
     required: true
     default: 'main'
-  
+
   github-token:
     description: 'the github token to use for the git push .'
     required: false
     secret: true
     default: ${{ github.token }}
-  
+
   release-title:
     description: 'the title of the release .'
     required: false
     default: ''
-  
+
   generate-notes:
     description: 'generate notes for the release .'
     required: false
@@ -41,6 +41,7 @@ outputs:
   new-version:
     description: 'the new version after the bump version .'
     value: ${{ steps.bump.outputs.new_version }}
+
   old-version:
     description: 'the old version before the bump version .'
     value: ${{ steps.bump.outputs.old_version }}
@@ -51,22 +52,15 @@ runs:
   using: 'composite'
   steps:
 
+    - name: check if poetry file exists
+    # Check if the pyproject.toml file exists and set  bool value to true if it does to use it in the next step
+      run: ${{ github.action_path }}/scripts/check-poetry-exist.sh
+      shell: bash
+
     - name: Set up Python environment
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
-    
-    - name: check if poetry file exists
-    # Check if the pyproject.toml file exists and set  bool value to true if it does to use it in the next step
-      run: |
-        if [ -f pyproject.toml ]; then
-          echo "poetry file exists"
-          echo "poetry_exist=true" >> $GITHUB_ENV
-        else
-          echo "poetry file does not exist"
-          echo "poetry_exist=false" >> $GITHUB_ENV
-        fi
-      shell: bash
+        python-version: ${{ env.python_version }}
 
     - name: Upgrade pip & Install Poetry.
       run: |
@@ -74,14 +68,12 @@ runs:
         pip install poetry
         pip install bumpver
       shell: bash
+
     - name: Setup poetry
       if : ${{ env.poetry_exist == 'false' }}
-      run: |
-        poetry init --no-interaction
-        current_version=$(grep 'current_version' bumpver.toml | cut -d '"' -f 2)
-        echo "Current version: $current_version"
-        sed -i "s/version = \"0.1.0\"/version = \"$current_version\"/" pyproject.toml
+      run: ${{ github.action_path }}/scripts/setup-poetry.sh
       shell: bash
+
     - name: Bump version
       id: bump
       run: |
@@ -91,18 +83,21 @@ runs:
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
       shell: bash
+
     - name: clean up if poetry file does not exist
       if: ${{ env.poetry_exist == 'false' }}
       run: |
         rm -f poetry.lock
         rm -f pyproject.toml
       shell: bash
+
     - name: Commit and push changes
       uses: actions-js/push@master
       with:
         branch: ${{ inputs.branch }}
         github_token: ${{ inputs.github-token }}
         message: "Bump version from ${{ env.old_version }} ⟶ ${{ env.new_version }}"
+
     - name: Create release with generated notes
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
@@ -115,7 +110,7 @@ runs:
             --title="${title} v${tag#v}" \
             --generate-notes
       shell: bash
-    
+
     - name: Create release without generated notes
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
