@@ -129,9 +129,9 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github-token }}
         major_tag: "v${{env.major_version}}"
       run: |
-        gh realease delete "$major_tag" \
+        gh release delete "$major_tag" \
             --repo="$GITHUB_REPOSITORY"
-        gh realease create "$major_tag" \
+        gh release create "$major_tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="${title} v${major_tag#v}"
       shell: bash
