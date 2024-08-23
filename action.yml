@@ -52,22 +52,27 @@ runs:
   using: 'composite'
   steps:
 
-    - name: Set up Python environment
-      uses: actions/setup-python@v5
-      with:
-        python-version: 'latest'
-
     - name: check if poetry file exists
     # Check if the pyproject.toml file exists and set  bool value to true if it does to use it in the next step
       run: |
         if [ -f pyproject.toml ]; then
           echo "poetry file exists"
           echo "poetry_exist=true" >> $GITHUB_ENV
+          python_version=$(grep 'python = ' pyproject.toml | cut -d '"' -f 2)
+          echo "Python version: $python_version"
+          echo "python_version=$python_version" >> $GITHUB_ENV
         else
           echo "poetry file does not exist"
           echo "poetry_exist=false" >> $GITHUB_ENV
+          echo "Python version: 3.12"
+          echo "python_version=3.12" >> $GITHUB_ENV
         fi
       shell: bash
+
+    - name: Set up Python environment
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.python_version }}
 
     - name: Upgrade pip & Install Poetry.
       run: |
