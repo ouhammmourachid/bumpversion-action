@@ -82,6 +82,7 @@ runs:
         poetry run bumpver update -n --${{ inputs.bump-type }}
         echo "new_version=$(poetry version -s)" >> $GITHUB_OUTPUT
         echo "new_version=$(poetry version -s)" >> $GITHUB_ENV
+        echo "major_version=$(poetry version -s | cut -d. -f1)" >> $GITHUB_ENV
       shell: bash
 
     - name: clean up if poetry file does not exist
@@ -121,4 +122,16 @@ runs:
         gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="${title} v${tag#v}"
+      shell: bash
+
+    - name: retage for the major version
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        major_tag: "v${{env.major_version}}"
+      run: |
+        gh realease delete "$major_tag" \
+            --repo="$GITHUB_REPOSITORY"
+        gh realease create "$major_tag" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="${title} v${major_tag#v}"
       shell: bash
