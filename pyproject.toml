@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bumpversion-action"
-version = "1.0.0"
+version = "1.1.0"
 description = "a GitHub Actions that automates the process of bumping the version of a project."
 authors = ["ouhammmourachid <rachidouhammou21@gmail.com>"]
 license = "MIT"
