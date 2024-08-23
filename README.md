@@ -9,7 +9,7 @@ The `bumpversion-action` is a GitHub Actions workflow that automates the process
 - `bump-type` (required): The type of the bump version. Valid options are 'major', 'minor', or 'patch'.
 - `branch` (required): The branch to push the changes to. Default is 'main'.
 - `github-token` (required): The GitHub token used for authentication. This should be a secret. Default is `GITHUB_TOKEN`.
-- `release-title` (not required): A title to be the base for the realase like `Release v2.3` etc default value is `''`. 
+- `release-title` (not required): A title to be the base for the realase like `Release v2.3` etc default value is `''`.
 - `generate-notes` (not required): true if you want to generate notes automatically , false other wise default value is `true`.
 
 
@@ -59,7 +59,6 @@ jobs:
       with:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         fetch-depth: 0             # otherwise, you will fail to push refs to dest repo
-    
     - name: bumpversion
       uses: ouhammmourachid/bumpversion-action@v1
       with:

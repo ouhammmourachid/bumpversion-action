@@ -14,28 +14,24 @@ inputs:
     required: true
     default: 'patch'
     options: ['major', 'minor', 'patch']
-  
+
   branch:
     description: 'the branch to push the changes to .'
     required: true
     default: 'main'
-  
   github-token:
     description: 'the github token to use for the git push .'
     required: false
     secret: true
     default: ${{ github.token }}
-  
   release-title:
     description: 'the title of the release .'
     required: false
     default: ''
-  
   generate-notes:
     description: 'generate notes for the release .'
     required: false
     default: true
-
 # outputs of the action
 outputs:
   new-version:
@@ -55,7 +51,6 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-    
     - name: check if poetry file exists
     # Check if the pyproject.toml file exists and set  bool value to true if it does to use it in the next step
       run: |
@@ -115,7 +110,6 @@ runs:
             --title="${title} v${tag#v}" \
             --generate-notes
       shell: bash
-    
     - name: Create release without generated notes
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
