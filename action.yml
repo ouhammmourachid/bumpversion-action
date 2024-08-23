@@ -80,7 +80,15 @@ runs:
       if : ${{ env.poetry_exist == 'false' }}
       run: |
         poetry init --no-interaction
-        current_version=$(grep 'current_version' bumpver.toml | cut -d '"' -f 2)
+        # detect if the witch file of bumpver.toml or .bumpver.toml
+        if [ -f bumpver.toml ]; then
+          echo "bumpver.toml file exists"
+          bumpver_file=bumpver.toml
+        else
+          echo ".bumpver.toml file exists"
+          bumpver_file=.bumpver.toml
+        fi
+        current_version=$(grep 'current_version' $bumpver_file | cut -d '"' -f 2)
         echo "Current version: $current_version"
         sed -i "s/version = \"0.1.0\"/version = \"$current_version\"/" pyproject.toml
       shell: bash
