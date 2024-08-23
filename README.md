@@ -1,5 +1,9 @@
 # bumpversion-action
 
+> [!WARNING]
+> This action is still semi-experimental.
+> I’m happy to [hear feedback](https://github.com/ouhammmourachid/bumpversion-action/issues), though!
+
 ## Description
 
 The `bumpversion-action` is a GitHub Actions workflow that automates the process of bumping the version of a project. It allows you to easily increment the version number based on the specified bump type (major, minor, or patch) and push the changes to a specified branch.
