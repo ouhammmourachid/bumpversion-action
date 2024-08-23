@@ -54,19 +54,7 @@ runs:
 
     - name: check if poetry file exists
     # Check if the pyproject.toml file exists and set  bool value to true if it does to use it in the next step
-      run: |
-        if [ -f pyproject.toml ]; then
-          echo "poetry file exists"
-          echo "poetry_exist=true" >> $GITHUB_ENV
-          python_version=$(grep 'python = ' pyproject.toml | cut -d '"' -f 2)
-          echo "Python version: $python_version"
-          echo "python_version=$python_version" >> $GITHUB_ENV
-        else
-          echo "poetry file does not exist"
-          echo "poetry_exist=false" >> $GITHUB_ENV
-          echo "Python version: 3.12"
-          echo "python_version=3.12" >> $GITHUB_ENV
-        fi
+      run: $GITHUB_ACTION_PATH/scripts/check-poetry-exist.sh
       shell: bash
 
     - name: Set up Python environment
@@ -83,19 +71,7 @@ runs:
 
     - name: Setup poetry
       if : ${{ env.poetry_exist == 'false' }}
-      run: |
-        poetry init --no-interaction
-        # detect if the witch file of bumpver.toml or .bumpver.toml
-        if [ -f bumpver.toml ]; then
-          echo "bumpver.toml file exists"
-          bumpver_file=bumpver.toml
-        else
-          echo ".bumpver.toml file exists"
-          bumpver_file=.bumpver.toml
-        fi
-        current_version=$(grep 'current_version' $bumpver_file | cut -d '"' -f 2)
-        echo "Current version: $current_version"
-        sed -i "s/version = \"0.1.0\"/version = \"$current_version\"/" pyproject.toml
+      run: $GITHUB_ACTION_PATH/scripts/setup-poetry.sh
       shell: bash
 
     - name: Bump version
