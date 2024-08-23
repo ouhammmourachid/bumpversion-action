@@ -6,3 +6,6 @@ version_pattern = "MAJOR.MINOR.PATCH"
 "pyproject.toml" = [
     'version = "{version}"$',
 ]
+"README.md" = [
+    'bumpversion-action@v{version}$',
+]
