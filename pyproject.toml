@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "bumpversion-action"
+version = "1.0.0"
+description = "a GitHub Actions that automates the process of bumping the version of a project."
+authors = ["ouhammmourachid <rachidouhammou21@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
