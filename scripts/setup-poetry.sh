@@ -1,3 +1,4 @@
+#!/bin/bash
 poetry init --no-interaction
 # detect if the witch file of bumpver.toml or .bumpver.toml
 
@@ -12,6 +13,7 @@ else
   bumpver_file=.bumpver.toml
 
 fi
+
 # set the current version to the version in bumpver.toml or .bumpver.toml
 current_version=$(grep 'current_version' $bumpver_file | cut -d '"' -f 2)
 echo "Current version: $current_version"

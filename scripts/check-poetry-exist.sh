@@ -1,4 +1,7 @@
+#!/bin/bash
+
 if [ -f pyproject.toml ]; then
+
     echo "poetry file exists"
     echo "poetry_exist=true" >> $GITHUB_ENV
     python_version=$(grep 'python = ' pyproject.toml | cut -d '"' -f 2)
